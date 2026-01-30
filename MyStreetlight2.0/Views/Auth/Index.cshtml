@@ -1,0 +1,88 @@
+﻿<div class="h-[calc(100vh-5.5rem)] flex w-full items-center justify-center">
+	@* Import feedback partial here *@
+	@await Html.PartialAsync("_Feedback")
+
+	<div class="mx-1 w-full max-w-md rounded-2xl border border-[#abb3c2] p-8 shadow-lg">
+		<!-- Logo -->
+		<div class="mb-6 flex flex-col items-center">
+			<h1 class="text-2xl font-bold">LOGIN</h1>
+			<p class="text-sm">Streetlight Monitoring System</p>
+		</div>
+
+		<!-- Login Form -->
+		<form asp-controller="Auth" asp-action="Login" method="post" class="space-y-6">
+			<div>
+				<label for="username" class="mb-1 block text-sm font-medium">Username</label>
+				<input type="text" id="username" name="username"
+					   class="w-full rounded-lg border border-[#abb3c2] bg-transparent px-4 py-2 focus:outline-none focus:border-blue-500">
+			</div>
+
+			<div>
+				<label for="password" class="mb-1 block text-sm font-medium">Password</label>
+
+				<div class="flex w-full items-center rounded-lg border border-[#abb3c2] bg-transparent transition focus-within:border-blue-500">
+					<input type="password"
+						   id="password"
+						   name="password"
+						   class="flex-1 bg-transparent px-4 py-2.5 text-sm focus:outline-none">
+
+					<button type="button"
+							class="px-3 transition hover:text-blue-500"
+							onclick="togglePassword()">
+						<i id="eyeIcon" class="fa-regular fa-eye"></i>
+					</button>
+				</div>
+			</div>
+
+			<!-- Login Button -->
+			<button type="submit"
+					class="w-full rounded-lg bg-blue-600 py-2 font-semibold !text-white transition duration-200 hover:bg-blue-700">
+				Login
+			</button>
+		</form>
+
+	</div>
+</div>
+
+<script>
+	function togglePassword() {
+		const pass = document.getElementById("password");
+		const eyeIcon = document.getElementById("eyeIcon");
+
+		pass.type = pass.type === "password" ? "text" : "password";
+
+		eyeIcon.classList.toggle("fa-regular");
+		eyeIcon.classList.toggle("fa-eye");
+		eyeIcon.classList.toggle("fa-solid");
+		eyeIcon.classList.toggle("fa-eye-slash");
+	}
+</script>
+
+@* <!-- Remember Me + Forgot Password -->
+			<div class="flex items-center justify-between text-sm text-gray-400">
+				
+				<a href="/Account/ForgotPassword" class="hover:text-blue-400">Forgot password?</a>
+			</div> *@
+
+@* <!-- Divider -->
+		<div class="my-6 flex items-center">
+			<div class="flex-1 h-px bg-gray-600"></div>
+			<span class="px-3 text-sm text-gray-500">or</span>
+			<div class="flex-1 h-px bg-gray-600"></div>
+		</div> *@
+
+@* <!-- Social Login -->
+		<div class="flex gap-3">
+			<button class="flex-1 rounded-lg border border-gray-600 bg-[#0f172a] py-2 transition hover:bg-gray-700">
+				<i class="fab fa-google mr-2"></i> Google
+			</button>
+			<button class="flex-1 rounded-lg border border-gray-600 bg-[#0f172a] py-2 transition hover:bg-gray-700">
+				<i class="fab fa-microsoft mr-2"></i> Microsoft
+			</button>
+		</div>
+
+		<!-- Register Link -->
+		<p class="mt-6 text-center text-sm text-gray-400">
+			Don’t have an account?
+			<a href="/Account/Register" class="text-blue-400 hover:text-blue-500">Sign up</a>
+		</p> *@

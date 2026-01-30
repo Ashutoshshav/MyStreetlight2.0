@@ -1,0 +1,123 @@
+﻿@using Streetlight2._0.Utilities
+@model Streetlight2._0.DTOs.MaintenanceDtos.FaultyLightMaintenanceLogDataDto
+
+<div class="glass-card fade-in text-[var(--text-primary)] w-full max-w-4xl rounded-2xl p-1 sm:p-4">
+	<!-- Header -->
+	@* <div class="mb-6 flex items-center justify-between">
+		<div class="flex items-center gap-3">
+			<div class="bg-blue-500/20 rounded-xl p-3">
+				<i class="fas fa-tools text-xl text-blue-500"></i>
+			</div>
+			<div>
+				<h1 class="gradient-text text-2xl font-bold">Maintenance Log Details</h1>
+				<p class="text-[var(--text-secondary)] text-sm">Complete history of maintenance activities</p>
+			</div>
+		</div>
+	</div> *@
+
+	<!-- Fault Information -->
+	<div class="glass-card mb-1 rounded-xl p-5 sm:mb-3">
+		<div class="mb-4 flex items-center justify-between">
+			<h2 class="flex items-center gap-2 text-lg font-semibold">
+				<i class="fas fa-lightbulb text-yellow-500"></i>
+				Fault Information
+			</h2>
+
+			<button onclick="closePopup()"
+					class="text-md -mr-4 -mt-8 rounded-md px-2 py-0.5 font-medium text-gray-500 transition transition-all hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-300">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+
+		<div class="grid-cols-1 grid gap-4 md:grid-cols-2">
+			<div class="space-y-3">
+				<div class="border-[var(--border-glass)] flex justify-between border-b pb-2">
+					<span class="text-sm font-medium">Fault ID</span>
+					<span class="font-semibold">@Model.FaultId</span>
+				</div>
+				@* <div class="border-[var(--border-glass)] flex justify-between border-b pb-2">
+					<span class="text-sm font-medium">Gateway ID</span>
+					<span class="font-semibold text-blue-500">@Model.GatewayId</span>
+				</div>
+				<div class="border-[var(--border-glass)] flex justify-between border-b pb-2">
+					<span class="text-sm font-medium">Node ID</span>
+					<span class="font-semibold text-green-500">@Model.NodeId</span>
+				</div> *@
+				<div class="border-[var(--border-glass)] flex justify-between border-b pb-2">
+					<span class="text-sm font-medium">Maintenance Status</span>
+					<span class="font-semibold text-green-500">@Model.MaintenanceStatus</span>
+				</div>
+			</div>
+			<div class="space-y-3">
+				<div class="border-[var(--border-glass)] flex justify-between border-b pb-2">
+					<span class="text-sm font-medium">Faulted At</span>
+					<span class="font-medium">@Model.FaultedAt.ToString("dd MMM yyyy HH:mm")</span>
+				</div>
+				<div class="border-[var(--border-glass)] flex justify-between border-b pb-2">
+					<span class="text-sm font-medium">Duration</span>
+					<span class="font-medium text-amber-500">@Helper.ToTimeAgo(Model.FaultedAt)</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Maintenance History Table -->
+	<div class="glass-card rounded-xl p-5 pb-1 pt-3">
+		<div class="mb-3 flex items-center justify-between">
+			<h2 class="text-md flex items-center gap-2 font-semibold text-gray-700 dark:text-gray-300">
+				<i class="fas fa-clipboard-list text-purple-500"></i> Maintenance History
+			</h2>
+			<span class="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-500 dark:text-gray-400 dark:bg-gray-800">
+				@Model.MaintenanceLogs.Count entries
+			</span>
+		</div>
+
+		@if (Model.MaintenanceLogs.Any())
+		{
+			<div class="-mx-4 max-h-[300px] overflow-auto rounded-lg border border-gray-200 dark:border-gray-700">
+				<table class="w-full text-sm">
+					<thead class="bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
+						<tr>
+							<th class="px-3 py-2 text-left">User</th>
+							<th class="px-3 py-2 text-left">Action</th>
+							@* <th class="px-3 py-2 text-left">Remark</th> *@
+							<th class="px-3 py-2 text-right">Logged At</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+						@foreach (var log in Model.MaintenanceLogs)
+						{
+							<tr class="transition hover:bg-gray-50 dark:hover:bg-gray-800/60">
+								<td class="px-3 py-2 text-gray-700 dark:text-gray-200">@log.UserName</td>
+								<td class="px-3 py-2">
+									<span class="bg-green-500/10 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium text-green-600 dark:text-green-400">
+										<i class="fas fa-check-circle"></i> @log.Action
+									</span>
+								</td>
+								@* <td class="max-w-[150px] truncate px-3 py-2 text-gray-600 dark:text-gray-400" title="@log.Remark">
+									@log.Remark
+								</td> *@
+								<td class="px-3 py-2 text-right text-gray-500 dark:text-gray-400">
+									@log.LoggedAt.ToString("dd MMM yyyy HH:mm")
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		}
+		else
+		{
+			<div class="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+				<i class="fas fa-clipboard-list mb-2 text-2xl"></i><br />
+				No maintenance records yet.
+			</div>
+		}
+	</div>
+</div>
+
+<script>
+	function closePopup() {
+		console.log("Closing maintenance log details");
+	}
+</script>

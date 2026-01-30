@@ -1,0 +1,445 @@
+﻿<style>
+	.dashboard-card {
+		background: white;
+		border-radius: 0.75rem;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+		transition: all 0.3s ease;
+	}
+
+	.dashboard-card:hover {
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	}
+
+	.status-badge {
+		padding: 0.25rem 0.75rem;
+		border-radius: 1rem;
+		font-size: 0.75rem;
+		font-weight: 600;
+	}
+
+	.status-pending {
+		background-color: #fef3c7;
+		color: #d97706;
+	}
+
+	.status-in-progress {
+		background-color: #dbeafe;
+		color: #2563eb;
+	}
+
+	.status-completed {
+		background-color: #d1fae5;
+		color: #065f46;
+	}
+
+	.priority-high {
+		border-left: 4px solid #ef4444;
+	}
+
+	.priority-medium {
+		border-left: 4px solid #f59e0b;
+	}
+
+	.priority-low {
+		border-left: 4px solid #10b981;
+	}
+
+	.upload-area {
+		border: 2px dashed #d1d5db;
+		border-radius: 0.5rem;
+		transition: all 0.3s ease;
+	}
+
+	.upload-area:hover, .upload-area.dragover {
+		border-color: #3b82f6;
+		background-color: #f0f7ff;
+	}
+
+	.photo-preview {
+		position: relative;
+		display: inline-block;
+		margin: 0.5rem;
+	}
+
+	.photo-preview img {
+		border-radius: 0.5rem;
+		max-height: 120px;
+	}
+
+	.remove-photo {
+		position: absolute;
+		top: -8px;
+		right: -8px;
+		background: #ef4444;
+		color: white;
+		border-radius: 50%;
+		width: 24px;
+		height: 24px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		font-size: 0.75rem;
+	}
+
+	.task-card {
+		transition: all 0.3s ease;
+		cursor: pointer;
+	}
+
+	.task-card:hover {
+		transform: translateY(-2px);
+	}
+
+	.task-card.selected {
+		border: 2px solid #3b82f6;
+		background-color: #f0f7ff;
+	}
+
+	/* .tab-button {
+		padding: 0.75rem 1.5rem;
+		border-radius: 0.5rem 0.5rem 0 0;
+		font-weight: 500;
+		transition: all 0.3s ease;
+	}
+
+	.tab-button.active {
+		background-color: #f2f2f0;
+		color: #2563eb;
+		border-bottom: 3px solid #2563eb;
+	}
+
+	.tab-button:not(.active) {
+		background-color: #f1f5f9;
+		color: #64748b;
+	}
+
+	.tab-button:not(.active):hover {
+		background-color: #e2e8f0;
+	} */
+</style>
+
+@* Import feedback partial here *@
+@await Html.PartialAsync("_Feedback")
+
+<div class="mx-2 sm:mx-6">
+
+	<!-- Main Content -->
+	<main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+		<!-- Dashboard Stats -->
+		<div class="grid-cols-1 mb-2 grid gap-2 md:grid-cols-3">
+			<div class="glass-card rounded-xl border-[#abb3c2] p-6">
+				<div class="flex items-center">
+					<div class="mr-4 rounded-full bg-blue-100 p-3 text-blue-600">
+						<i class="fas fa-tasks text-xl"></i>
+					</div>
+					<div>
+						<p class="text-sm font-medium text-gray-500">Assigned Repairs</p>
+						<p class="text-2xl font-bold">12</p>
+					</div>
+				</div>
+			</div>
+			<div class="glass-card rounded-xl border-[#abb3c2] p-6">
+				<div class="flex items-center">
+					<div class="mr-4 rounded-full bg-yellow-100 p-3 text-yellow-600">
+						<i class="fas fa-tools text-xl"></i>
+					</div>
+					<div>
+						<p class="text-sm font-medium text-gray-500">In Progress</p>
+						<p class="text-2xl font-bold">5</p>
+					</div>
+				</div>
+			</div>
+			<div class="glass-card rounded-xl border-[#abb3c2] p-6">
+				<div class="flex items-center">
+					<div class="mr-4 rounded-full bg-green-100 p-3 text-green-600">
+						<i class="fas fa-check-circle text-xl"></i>
+					</div>
+					<div>
+						<p class="text-sm font-medium text-gray-500">Completed</p>
+						<p class="text-2xl font-bold">24</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="grid-cols-1 grid gap-2 lg:grid-cols-3">
+			<!-- Task List -->
+			<div class="lg:col-span-2">
+				<div class="glass-card overflow-hidden rounded-xl border-[#abb3c2]">
+					<div class="flex border-b px-6 py-4">
+						<button class="tab-button rounded-t-xl px-[1.5rem] py-[0.75rem] active:bg-[#f2f2f0]">Assigned</button>
+						<button class="tab-button">In Progress</button>
+						<button class="tab-button">Completed</button>
+					</div>
+					<div class="p-6">
+						<div class="mb-4 flex items-center justify-between">
+							<h2 class="text-lg font-semibold text-gray-900">Faulty Lights Assigned to You</h2>
+							<div class="flex items-center space-x-1 md:mt-0">
+								<div class="relative">
+									<input type="text" placeholder="Search lights..."
+										   class="bg-gray-200/50 w-full rounded-lg px-4 py-2 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-200">
+									<i class="fas fa-search absolute left-3 top-2.5 text-gray-500 dark:text-gray-400"></i>
+								</div>
+								<button class="rounded-lg bg-gray-200 px-3 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:bg-gray-700/50 dark:text-gray-200 dark:hover:bg-gray-700">
+									<i class="fas fa-filter"></i>
+								</button>
+							</div>
+						</div>
+
+						<div class="space-y-4">
+							<!-- Task Item -->
+							<div class="task-card dashboard-card priority-high selected p-4">
+								<div class="flex items-start justify-between">
+									<div>
+										<div class="mb-2 flex items-center">
+											<span class="status-badge status-pending">Pending</span>
+											<span class="ml-2 text-xs text-gray-500">#LT-2023-001</span>
+										</div>
+										<h3 class="font-medium text-gray-900">Street Light - Main Avenue</h3>
+										<p class="mt-1 text-sm text-gray-600">Light not turning on, possible electrical issue</p>
+										<div class="mt-2 flex items-center text-sm text-gray-500">
+											<i class="fas fa-map-marker-alt mr-1"></i>
+											<span>Main Avenue, Downtown</span>
+											<i class="fas fa-clock ml-3 mr-1"></i>
+											<span>Assigned: 2 days ago</span>
+										</div>
+									</div>
+									<div class="text-right">
+										<div class="mb-2 text-xs text-gray-500">Priority: <span class="font-medium text-red-600">High</span></div>
+										<button class="mark-repaired-btn bg-primary rounded px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-secondary">
+											Mark as Repaired
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<!-- Task Item -->
+							<div class="task-card dashboard-card priority-medium p-4">
+								<div class="flex items-start justify-between">
+									<div>
+										<div class="mb-2 flex items-center">
+											<span class="status-badge status-pending">Pending</span>
+											<span class="ml-2 text-xs text-gray-500">#LT-2023-002</span>
+										</div>
+										<h3 class="font-medium text-gray-900">Park Lighting - Central Park</h3>
+										<p class="mt-1 text-sm text-gray-600">Flickering lights along walking path</p>
+										<div class="mt-2 flex items-center text-sm text-gray-500">
+											<i class="fas fa-map-marker-alt mr-1"></i>
+											<span>Central Park, East Side</span>
+											<i class="fas fa-clock ml-3 mr-1"></i>
+											<span>Assigned: 1 day ago</span>
+										</div>
+									</div>
+									<div class="text-right">
+										<div class="mb-2 text-xs text-gray-500">Priority: <span class="font-medium text-yellow-600">Medium</span></div>
+										<button class="mark-repaired-btn bg-primary rounded px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-secondary">
+											Mark as Repaired
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<!-- Task Item -->
+							<div class="task-card dashboard-card priority-low p-4">
+								<div class="flex items-start justify-between">
+									<div>
+										<div class="mb-2 flex items-center">
+											<span class="status-badge status-in-progress">In Progress</span>
+											<span class="ml-2 text-xs text-gray-500">#LT-2023-005</span>
+										</div>
+										<h3 class="font-medium text-gray-900">Building Exterior - City Hall</h3>
+										<p class="mt-1 text-sm text-gray-600">Flood light not working on south facade</p>
+										<div class="mt-2 flex items-center text-sm text-gray-500">
+											<i class="fas fa-map-marker-alt mr-1"></i>
+											<span>City Hall, Government District</span>
+											<i class="fas fa-clock ml-3 mr-1"></i>
+											<span>Started: Today</span>
+										</div>
+									</div>
+									<div class="text-right">
+										<div class="mb-2 text-xs text-gray-500">Priority: <span class="font-medium text-green-600">Low</span></div>
+										<button class="mark-repaired-btn bg-primary rounded px-3 py-1 text-sm font-medium text-white transition-colors hover:bg-secondary">
+											Mark as Repaired
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Repair Details Panel -->
+			<div class="lg:col-span-1">
+				<div class="glass-card sticky top-6 rounded-xl border-[#abb3c2] p-6">
+					<h2 class="mb-4 text-lg font-semibold text-gray-900">Repair Details</h2>
+
+					<div class="mb-6">
+						<h3 class="mb-2 font-medium text-gray-900">Street Light - Main Avenue</h3>
+						<div class="mb-4 rounded-lg bg-blue-50 p-3">
+							<div class="flex justify-between text-sm">
+								<span class="text-gray-600">Task ID:</span>
+								<span class="font-medium">#LT-2023-001</span>
+							</div>
+							<div class="mt-1 flex justify-between text-sm">
+								<span class="text-gray-600">Priority:</span>
+								<span class="font-medium text-red-600">High</span>
+							</div>
+							<div class="mt-1 flex justify-between text-sm">
+								<span class="text-gray-600">Assigned:</span>
+								<span class="font-medium">Oct 12, 2023</span>
+							</div>
+						</div>
+
+						<div class="mb-4">
+							<h4 class="mb-1 text-sm font-medium text-gray-700">Issue Description</h4>
+							<p class="text-sm text-gray-600">Light not turning on, possible electrical issue. Reported by city maintenance team.</p>
+						</div>
+
+						<div class="mb-4">
+							<h4 class="mb-1 text-sm font-medium text-gray-700">Location Details</h4>
+							<p class="text-sm text-gray-600">Main Avenue between 5th and 6th Street. Pole #MA-045.</p>
+						</div>
+					</div>
+
+					<form id="repairForm" class="space-y-4">
+						<div>
+							<label class="mb-1 block text-sm font-medium text-gray-700">Repair Remarks</label>
+							<textarea class="w-full rounded-lg border border-gray-300 p-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" rows="3" placeholder="Describe the repair work done..."></textarea>
+						</div>
+
+						<div>
+							<label class="mb-1 block text-sm font-medium text-gray-700">Upload Photos</label>
+							<div class="upload-area cursor-pointer p-4 text-center">
+								<i class="fas fa-cloud-upload-alt mb-2 text-3xl text-gray-400"></i>
+								<p class="text-sm text-gray-600">Drag & drop photos here or click to browse</p>
+								<input type="file" id="photoUpload" multiple accept="image/*" class="hidden">
+							</div>
+							<div id="photoPreviews" class="mt-2 flex flex-wrap"></div>
+						</div>
+
+						<div class="border-t pt-4">
+							<button type="submit" class="flex w-full items-center justify-center rounded-lg bg-green-600 py-2.5 font-medium text-white transition-colors hover:bg-green-700">
+								<i class="fas fa-check-circle mr-2"></i> Submit Repair Completion
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Success Modal -->
+	<div id="successModal" class="fixed inset-0 z-50 flex hidden items-center justify-center bg-black bg-opacity-50">
+		<div class="mx-4 max-w-md rounded-lg bg-white p-6">
+			<div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+				<i class="fas fa-check text-3xl text-green-600"></i>
+			</div>
+			<h3 class="mb-2 text-center text-xl font-semibold text-gray-900">Repair Completed!</h3>
+			<p class="mb-6 text-center text-gray-600">The repair has been successfully marked as completed and submitted for review.</p>
+			<button id="closeModal" class="bg-primary w-full rounded-lg py-2 font-medium text-white transition-colors hover:bg-secondary">OK</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Tab functionality
+	document.querySelectorAll('.tab-button').forEach(button => {
+		button.addEventListener('click', function() {
+			document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+			this.classList.add('active');
+		});
+	});
+
+	// Task selection
+	document.querySelectorAll('.task-card').forEach(card => {
+		card.addEventListener('click', function() {
+			document.querySelectorAll('.task-card').forEach(c => c.classList.remove('selected'));
+			this.classList.add('selected');
+
+			// In a real app, this would update the repair details panel with the selected task data
+		});
+	});
+
+	// Photo upload functionality
+	const uploadArea = document.querySelector('.upload-area');
+	const photoUpload = document.getElementById('photoUpload');
+	const photoPreviews = document.getElementById('photoPreviews');
+
+	uploadArea.addEventListener('click', () => {
+		photoUpload.click();
+	});
+
+	uploadArea.addEventListener('dragover', (e) => {
+		e.preventDefault();
+		uploadArea.classList.add('dragover');
+	});
+
+	uploadArea.addEventListener('dragleave', () => {
+		uploadArea.classList.remove('dragover');
+	});
+
+	uploadArea.addEventListener('drop', (e) => {
+		e.preventDefault();
+		uploadArea.classList.remove('dragover');
+		handleFiles(e.dataTransfer.files);
+	});
+
+	photoUpload.addEventListener('change', (e) => {
+		handleFiles(e.target.files);
+	});
+
+	function handleFiles(files) {
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			if (file.type.startsWith('image/')) {
+				const reader = new FileReader();
+
+				reader.onload = function(e) {
+					const preview = document.createElement('div');
+					preview.className = 'photo-preview';
+					preview.innerHTML = `
+						<img src="${e.target.result}" alt="Preview">
+						<div class="remove-photo">
+							<i class="fas fa-times"></i>
+						</div>
+					`;
+
+					preview.querySelector('.remove-photo').addEventListener('click', function() {
+						preview.remove();
+					});
+
+					photoPreviews.appendChild(preview);
+				};
+
+				reader.readAsDataURL(file);
+			}
+		}
+	}
+
+	// Form submission
+	document.getElementById('repairForm').addEventListener('submit', function(e) {
+		e.preventDefault();
+		document.getElementById('successModal').classList.remove('hidden');
+	});
+
+	// Close modal
+	document.getElementById('closeModal').addEventListener('click', function() {
+		document.getElementById('successModal').classList.add('hidden');
+	});
+
+	// Mark as repaired buttons
+	document.querySelectorAll('.mark-repaired-btn').forEach(button => {
+		button.addEventListener('click', function(e) {
+			e.stopPropagation();
+			const taskCard = this.closest('.task-card');
+			taskCard.querySelector('.status-badge').textContent = 'Completed';
+			taskCard.querySelector('.status-badge').className = 'status-badge status-completed';
+
+			// In a real app, this would open the repair form for this specific task
+			document.querySelectorAll('.task-card').forEach(c => c.classList.remove('selected'));
+			taskCard.classList.add('selected');
+		});
+	});
+</script>

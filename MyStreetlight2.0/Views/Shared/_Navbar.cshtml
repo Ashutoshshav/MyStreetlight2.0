@@ -1,0 +1,125 @@
+﻿@using Streetlight2._0.Utilities
+
+@{
+	bool canDashboard = User.HasClaim("permissions", "Dashboard");
+	bool canGateway = User.HasClaim("permissions", "Gateway");
+	bool canMaintenance = User.HasClaim("permissions", "Maintenance");
+	bool canReports = User.HasClaim("permissions", "Reports");
+}
+
+<div class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
+
+	<!-- Navbar -->
+	<nav class="z-40 bg-white/10 fixed left-0 top-0 flex w-full items-center justify-between border-b border-[#abb3c2] px-4 py-1 backdrop-blur-lg dark:bg-gray-900/70 dark:border-white/10 md:px-6">
+
+		<!-- Logo / Brand -->
+		<div class="flex items-center">
+			<a class="flex items-center" asp-controller="Home" asp-action="Index">
+				<!-- Light Theme Logo -->
+				<img src="~/images/vislogo.png" alt="Logo"
+					 class="block h-[60px] contrast-200 invert filter dark:hidden" />
+				<!-- Dark Theme Logo -->
+				<img src="~/images/vislogo.png" alt="Logo"
+					 class="hidden h-[60px] dark:block" />
+			</a>
+		</div>
+
+		<!-- Desktop Navigation -->
+		<div class="hidden items-center space-x-2 md:flex">
+			@if (User.HasPermission("MainPage"))
+			{
+				<a asp-controller="Home" asp-action="Index" class="relative px-4 py-2 text-sm font-medium transition">
+					Main Dashboard
+				</a>
+			}
+			<a asp-controller="Home" asp-action="Index" class="relative px-4 py-2 text-sm font-medium transition after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-blue-500 after:to-blue-700 after:transition-all after:duration-300 hover:text-primary-600 hover:after:w-full">Main Dashboard</a>
+			<a asp-controller="Gateway" asp-action="Index" class="relative px-4 py-2 text-sm font-medium transition after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-blue-500 after:to-blue-700 after:transition-all after:duration-300 hover:text-primary-600 hover:after:w-full">
+				Control Center
+			</a>
+			<a asp-controller="Maintenance" asp-action="FaultyLights" class="relative px-4 py-2 text-sm font-medium transition after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-blue-500 after:to-blue-700 after:transition-all after:duration-300 hover:text-primary-600 hover:after:w-full">
+				Maintenance
+			</a>
+			<a href="#" class="relative px-4 py-2 text-sm font-medium transition after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-blue-500 after:to-blue-700 after:transition-all after:duration-300 hover:text-primary-600 hover:after:w-full">Reports</a>
+			<a asp-controller="Auth" asp-action="Logout" class="relative px-4 py-2 text-sm font-medium transition after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-blue-500 after:to-blue-700 after:transition-all after:duration-300 hover:text-primary-600 hover:after:w-full">Logout</a>
+		</div>
+
+		<!-- Right Side Buttons -->
+		<div class="flex items-center space-x-3 md:space-x-4">
+			<button id="themeToggle"
+					class="bg-white/20 rounded-full border border-gray-300 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 dark:hover:bg-gray-700">
+				<i id="themeIcon" class="fas fa-moon"></i>
+			</button>
+			<button class="bg-white/20 relative rounded-full border border-gray-300 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 dark:hover:bg-gray-700">
+				<i class="fas fa-bell"></i>
+				@* <span class="absolute -right-1 -top-1 flex h-5 w-5 animate-pulse items-center justify-center rounded-full bg-red-500 text-xs text-white">3</span> *@
+			</button>
+			<button class="bg-white/20 hidden rounded-full border border-gray-300 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 md:block dark:hover:bg-gray-700">
+				<span class="font-semibold">A</span>
+			</button>
+			<button id="mobileMenuButton" class="bg-white/20 rounded-full border border-gray-300 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 md:hidden dark:hover:bg-gray-700">
+				<i class="fas fa-bars font-semibold"></i>
+			</button>
+		</div>
+	</nav>
+
+	<!-- Mobile Menu -->
+	<div id="mobileMenu" class="-translate-x-full bg-white/95 z-[10000] fixed left-0 top-0 h-full w-64 transform shadow-lg transition-transform duration-300 dark:bg-gray-800/95">
+		<div class="flex h-full flex-col">
+
+			<!-- Menu Header -->
+			<div class="flex items-center justify-between border-b border-gray-200 px-4 dark:border-gray-700">
+				<a class="flex items-center" asp-controller="Home" asp-action="Index">
+					<!-- Light Theme Logo -->
+					<img src="~/images/vislogo.png" alt="Logo"
+						 class="block h-[60px] contrast-200 invert filter dark:hidden" />
+					<!-- Dark Theme Logo -->
+					<img src="~/images/vislogo.png" alt="Logo"
+						 class="hidden h-[60px] dark:block" />
+				</a>
+				<button id="closeMobileMenu" class="rounded-lg p-0.5 px-2 hover:bg-gray-200 dark:hover:bg-gray-700">
+					<i class="fas fa-times"></i>
+				</button>
+			</div>
+
+			<!-- Menu Items -->
+			<div class="flex-1 space-y-1 overflow-y-auto p-4">
+				<a asp-controller="Home" asp-action="Index" class="flex items-center rounded-lg px-4 py-3 text-sm font-medium dark:hover:bg-gray-700">
+					<i class="fas fa-th-large mr-3"></i>Main Dashboard
+				</a>
+				<a asp-controller="Gateway" asp-action="Index" class="flex items-center rounded-lg px-4 py-3 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700">
+					<i class="fas fa-file-alt mr-3"></i>Control Center
+				</a>
+				<a asp-controller="Maintenance" asp-action="FaultyLights"
+				   class="flex items-center rounded-lg px-4 py-3 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700">
+					<i class="fas fa-tools mr-3"></i>Maintenance
+				</a>
+				<a href="#" class="flex items-center rounded-lg px-4 py-3 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700">
+					<i class="fas fa-file-alt mr-3"></i>Reports
+				</a>
+			</div>
+
+			<!-- Menu Footer -->
+			<div class="border-t border-gray-200 p-4 dark:border-gray-700">
+				<div class="flex items-center">
+					<div class="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300">
+						<span class="font-semibold">A</span>
+					</div>
+					<div>
+						<p class="text-sm font-medium">Admin User</p>
+						<p class="text-xs text-gray-500 dark:text-gray-400">admin@example.com</p>
+					</div>
+				</div>
+				<a asp-controller="Auth" asp-action="Logout" class="mt-4 flex w-full items-center justify-center rounded-lg bg-gray-100 px-4 py-2 text-sm transition hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600">
+					<i class="fa-solid fa-right-from-bracket mr-3"></i>Logout
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Overlay -->
+	<div id="overlay" class="z-20 bg-black/50 fixed inset-0 hidden"></div>
+</div>
+
+<script src="~/js/Navbar/_Navbar.js"></script>
+
+<script src="~/js/theme/theme.js?v=@DateTime.Now.Ticks"></script>

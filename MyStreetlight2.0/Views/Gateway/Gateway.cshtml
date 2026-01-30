@@ -1,0 +1,297 @@
+﻿@using Streetlight2._0.ViewModels
+@model GatewayDashboardViewModel
+
+@* Import feedback partial here *@
+@await Html.PartialAsync("_Feedback")
+
+<div class="mx-2 sm:mx-6">
+	<div class="h-[calc(100vh-5.5rem)]">
+		<!-- Gateway Dashboard Card -->
+		<div class="glass-card mx-auto flex max-w-7xl flex-col flex-wrap rounded-2xl border border-[#abb3c2] p-1 shadow-xl dark:border-[rgba(255,255,255,0.125)] md:p-6">
+
+			<!-- Header Section -->
+			<div class="grid gap-2 p-3 pb-0 md:grid-cols-[1fr_auto_auto] md:items-center md:gap-4 md:p-0">
+
+				<!-- Left: Gateway Info -->
+				<div class="flex items-center gap-3">
+					<div class="bg-blue-500/20 flex h-12 w-12 items-center justify-center rounded-xl">
+						<i class="fas fa-network-wired text-xl text-blue-400"></i>
+					</div>
+					<div>
+						<h2 class="text-lg font-bold sm:text-2xl">Gateway: @Model.GatewayId</h2>
+						<p class="text-sm text-gray-600 dark:text-gray-400">Address: @Model.Address</p>
+					</div>
+				</div>
+
+				<!-- Center: Status + Time -->
+				<div class="flex flex-col items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-sm dark:bg-gray-800 md:flex-row md:gap-4">
+					<!-- Last Update -->
+					<div class="flex items-center gap-1.5 font-medium text-gray-600 dark:text-gray-300">
+						<i class="fas fa-clock text-xs"></i>
+						@if (Model.LastUpdate == DateTime.MaxValue)
+						{
+							<span>Not Available</span>
+						}
+						else
+						{
+							<span>@Model.LastUpdate.ToString("dd MMM yyyy HH:mm:ss")</span>
+						}
+					</div>
+
+					<!-- Divider (hidden on mobile, vertical on desktop) -->
+					<div class="hidden h-6 border-l border-gray-300 dark:border-gray-600 md:block"></div>
+					<div class="h-px w-full bg-gray-300 dark:bg-gray-600 md:hidden"></div>
+
+					<!-- Radio -->
+					<div class="flex items-center gap-1.5">
+						<i class="fas fa-signal text-green-500"></i>
+						<span class="text-gray-700 dark:text-gray-200">Radio:</span>
+						<span class="font-semibold text-green-600 dark:text-green-400">@Model.RadioStatus</span>
+					</div>
+				</div>
+
+				<!-- Right: Controls -->
+				<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-2">
+					<div class="glass-card flex flex-wrap items-center justify-evenly gap-1 rounded-xl p-0.5 shadow-inner sm:justify-center sm:gap-1.5 sm:p-1.5">
+						@* <a href="javascript:void(0);"
+						   onclick="sendCommandForGateway('@Model.GatewayId', 1)"
+						   class="flex items-center justify-center rounded-lg bg-gradient-to-br from-green-500 to-green-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-green-600 hover:to-green-700 hover:shadow-lg">
+							<i class="fas fa-play-circle mr-1.5 text-xs"></i> ON
+						</a>
+						<a href="javascript:void(0);"
+						   onclick="sendCommandForGateway('@Model.GatewayId', 0)"
+						   class="flex items-center justify-center rounded-lg bg-gradient-to-br from-red-500 to-red-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-red-600 hover:to-red-700 hover:shadow-lg">
+							<i class="fas fa-stop-circle mr-1.5 text-xs"></i> OFF
+						</a>
+						<a href="javascript:void(0);"
+						   onclick="sendCommandForGateway('@Model.GatewayId', 2)"
+						   class="pulse flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-blue-600 hover:to-blue-700 hover:shadow-lg">
+							<i class="fas fa-bolt mr-1.5 text-xs"></i> Test
+						</a> *@
+
+						<form method="POST" action="/Gateway/SaveActionCommandForGateway?gatewayId=@Model.GatewayId&actionId=1"
+							  onclick="this.submit();"
+							  class="flex cursor-pointer items-center justify-center rounded-lg bg-gradient-to-br from-green-500 to-green-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-green-600 hover:to-green-700 hover:shadow-lg">
+							<i class="fas fa-play-circle mr-1.5 text-xs"></i> ON
+						</form>
+						<form method="POST" action="/Gateway/SaveActionCommandForGateway?gatewayId=@Model.GatewayId&actionId=0"
+							  onclick="this.submit();"
+							  class="flex cursor-pointer items-center justify-center rounded-lg bg-gradient-to-br from-red-500 to-red-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-red-600 hover:to-red-700 hover:shadow-lg">
+							<i class="fas fa-stop-circle mr-1.5 text-xs"></i> OFF
+						</form>
+						<form method="POST" action="/Gateway/SaveActionCommandForGateway?gatewayId=@Model.GatewayId&actionId=2"
+							  onclick="this.submit();"
+							  class="pulse flex cursor-pointer items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-blue-600 hover:to-blue-700 hover:shadow-lg">
+							<i class="fas fa-bolt mr-1.5 text-xs"></i> Test
+						</form>
+
+						<div class="hidden h-6 border-l border-gray-300 dark:border-gray-600 sm:block"></div>
+
+						<button class="from-primary-500 to-primary-600 flex items-center justify-center rounded-lg bg-gradient-to-br px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-primary-600 hover:to-primary-700 hover:shadow-lg">
+							<i class="fas fa-download mr-1.5"></i> Reports
+						</button>
+					</div>
+				</div>
+
+				<!-- Count and Filter -->
+				<div class="flex justify-between gap-3 pb-0 md:flex-row md:items-center md:col-span-3">
+					<div class="flex items-center space-x-3">
+						<div class="bg-gray-200/50 rounded-lg px-3 py-1.5 text-gray-700 dark:bg-gray-700/50 dark:text-gray-200">
+							<span class="hidden text-sm font-medium md:inline">Connected Lights: </span>
+							<span class="font-bold text-blue-600 dark:text-blue-400">@Model.Macs.Count</span>
+						</div>
+					</div>
+
+					<div class="flex items-center space-x-1 md:mt-0">
+						<div class="relative">
+							<input type="text" placeholder="Search lights..."
+								   class="bg-gray-200/50 w-full rounded-lg px-4 py-2 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-200">
+							<i class="fas fa-search absolute left-3 top-2.5 text-gray-500 dark:text-gray-400"></i>
+						</div>
+						<button class="rounded-lg bg-gray-200 px-3 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:bg-gray-700/50 dark:text-gray-200 dark:hover:bg-gray-700">
+							<i class="fas fa-filter"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Table -->
+			<div class="mt-3 max-h-[450px] overflow-y-auto rounded-xl border border-gray-200 dark:border-gray-700">
+				<div class="rounded-lg border border-gray-200 shadow-sm dark:border-gray-700">
+					<table class="w-full text-base leading-tight">
+						<thead class="sticky top-0 bg-gray-100 text-sm font-semibold text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+							<tr>
+								<th class="p-2">Light ID</th>
+								<th class="p-2">Last Update</th>
+								@* <th class="hidden p-2 md:table-cell">MAC ID</th> *@
+								<th class="p-2">Status</th>
+								<th class="hidden p-2 md:table-cell">Current</th>
+								<th class="hidden p-2 md:table-cell">Light On Time</th>
+								@* <th class="hidden p-2 md:table-cell">Action</th> *@
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-gray-200 text-sm dark:divide-gray-700">
+							@foreach (var node in Model.Macs)
+							{
+								<tr class="font-medium text-gray-800 transition hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-900">
+									<!-- Always visible -->
+									<td class="p-2 text-center font-bold">
+										<a asp-action="Light" asp-controller="Streetlight" asp-route-lightId="@node.LightId">
+											<span class="text-blue-600 hover:underline">@node.LightId</span>
+										</a>
+									</td>
+
+									<!-- Always visible -->
+									<td class="p-2 text-center">
+										@if (node.LastUpdate == DateTime.MaxValue)
+										{
+											<span class="italic text-gray-400">Not Available</span>
+										}
+										else
+										{
+											<span>@node.LastUpdate.ToString("dd MMM yyyy HH:mm")</span>
+										}
+									</td>
+
+									<!-- Always visible -->
+									<td class="p-2 text-center">
+										@if ((DateTime.Now - node.LastUpdate).TotalMinutes > 30)
+										{
+											<span class="rounded-full bg-amber-200 px-3 py-1 text-sm font-semibold text-amber-800 dark:bg-amber-700 dark:text-amber-100">
+												NC
+											</span>
+										}
+										else if (node.LightSts == "ON" || node.LightSts == "FAULT")
+										{
+											<span class="rounded-full bg-green-200 px-3 py-1 text-sm font-semibold text-green-800 dark:bg-green-700 dark:text-green-100">
+												ON
+											</span>
+										}
+										else if (node.LightSts == "OFF")
+										{
+											<span class="rounded-full bg-red-200 px-3 py-1 text-sm font-semibold text-red-800 dark:bg-red-700 dark:text-red-100">
+												@node.LightSts
+											</span>
+										}
+										else
+										{
+											<span class="rounded-full bg-amber-200 px-3 py-1 text-sm font-semibold text-amber-800 dark:bg-amber-700 dark:text-amber-100">
+												@node.LightSts
+											</span>
+										}
+									</td>
+
+									<!-- Hidden on small -->
+									<td class="hidden p-2 text-center md:table-cell">@node.Ampere A</td>
+									<td class="hidden p-2 text-center md:table-cell">@node.CumOnHour</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="~/js/misc/actioncommand.js?v=@DateTime.Now.Ticks"></script>
+
+
+@* <button class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
+						<i class="fas fa-sync-alt mr-1"></i> Refresh
+					</button> *@
+
+@* <!-- Header Section -->
+			<div class="flex flex-col justify-between gap-3 p-3 pb-0 md:p-0 md:flex-row md:items-center">
+				<div>
+					<div class="flex items-center">
+						<div class="bg-blue-500/20 mr-3 flex h-12 w-12 items-center justify-center rounded-xl">
+							<i class="fas fa-network-wired text-xl text-blue-400"></i>
+						</div>
+						<div>
+							<h2 class="text-2xl font-bold">Gateway: @Model.GatewayId</h2>
+							<p class="text-sm">Address: @Model.Address</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Right side - Controls and buttons -->
+				<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-2">
+					<div class="glass-card flex flex-wrap items-center justify-center gap-1.5 rounded-xl p-1.5 shadow-inner">
+						<a href="javascript:void(0);"
+						   onclick="sendCommandForGateway('@Model.GatewayId', 1)"
+						   class="flex items-center justify-center rounded-lg bg-gradient-to-br from-green-500 to-green-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-green-600 hover:to-green-700 hover:shadow-lg">
+							<i class="fas fa-play-circle mr-1.5 text-xs"></i> ON
+						</a>
+						<a href="javascript:void(0);"
+						   onclick="sendCommandForGateway('@Model.GatewayId', 0)"
+						   class="flex items-center justify-center rounded-lg bg-gradient-to-br from-red-500 to-red-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-red-600 hover:to-red-700 hover:shadow-lg">
+							<i class="fas fa-stop-circle mr-1.5 text-xs"></i> OFF
+						</a>
+						<a href="javascript:void(0);"
+						   onclick="sendCommandForGateway('@Model.GatewayId', 2)"
+						   class="pulse flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-blue-600 hover:to-blue-700 hover:shadow-lg">
+							<i class="fas fa-bolt mr-1.5 text-xs"></i> Test
+						</a>
+
+						<div class="hidden h-6 border-l border-gray-300 dark:border-gray-600 sm:block"></div>
+
+						<button class="from-primary-500 to-primary-600 flex items-center justify-center rounded-lg bg-gradient-to-br px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-primary-600 hover:to-primary-700 hover:shadow-lg">
+							<i class="fas fa-download mr-1.5"></i> Reports
+						</button>
+					</div>
+				</div>
+			</div> *@
+
+<!-- Stats Overview -->
+@* <div class="grid-cols-2 mt-6 grid gap-4 md:grid-cols-4">
+				<div class="bg-gray-700/30 rounded-xl p-4">
+					<div class="flex items-center">
+						<div class="bg-green-500/20 mr-3 rounded-lg p-2">
+							<i class="fas fa-plug text-green-400"></i>
+						</div>
+						<div>
+							<p class="text-sm text-gray-300">Active</p>
+							<p class="text-xl font-bold">10</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="bg-gray-700/30 rounded-xl p-4">
+					<div class="flex items-center">
+						<div class="bg-red-500/20 mr-3 rounded-lg p-2">
+							<i class="fas fa-plug text-red-400"></i>
+						</div>
+						<div>
+							<p class="text-sm text-gray-300">Faulty</p>
+							<p class="text-xl font-bold">2</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="bg-gray-700/30 rounded-xl p-4">
+					<div class="flex items-center">
+						<div class="bg-blue-500/20 mr-3 rounded-lg p-2">
+							<i class="fas fa-bolt text-blue-400"></i>
+						</div>
+						<div>
+							<p class="text-sm text-gray-300">No Power</p>
+							<p class="text-xl font-bold">8</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="bg-gray-700/30 rounded-xl p-4">
+					<div class="flex items-center">
+						<div class="bg-amber-500/20 mr-3 rounded-lg p-2">
+							<i class="fas fa-exclamation-triangle text-amber-400"></i>
+						</div>
+						<div>
+							<p class="text-sm text-gray-300">Issues</p>
+							<p class="text-xl font-bold">1</p>
+						</div>
+					</div>
+				</div>
+			</div> *@

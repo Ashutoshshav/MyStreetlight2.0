@@ -1,0 +1,410 @@
+﻿@using Newtonsoft.Json
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+@model Streetlight2._0.ViewModels.HomeIndexViewModel
+
+<style>
+	.progress-bar {
+		height: 8px;
+		background-color: #e5e7eb;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+
+	.progress-fill {
+		height: 100%;
+		border-radius: 4px;
+	}
+
+	.progress-faulty {
+		background-color: #ef4444;
+	}
+
+	.progress-maintenance {
+		background-color: #f59e0b;
+	}
+
+	#lightsMap {
+		border-radius: 0.75rem;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+		transition: all 0.3s ease;
+	}
+
+	#lightsMap:hover {
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	}
+
+	.map-controls {
+		background: rgba(255, 255, 255, 0.95);
+		backdrop-filter: blur(10px);
+		border-radius: 0.5rem;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+		padding: 0.75rem;
+	}
+
+	.status-filter {
+		display: flex;
+		justify-content: space-evenly;
+		flex-wrap: wrap;
+	}
+
+	.filter-btn {
+		border-radius: 2rem;
+		font-weight: 500;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.375rem 0.75rem;
+		font-size: 0.8rem;
+	}
+
+	.legend-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.legend-color {
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		border: 2px solid white;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+	}
+
+	.custom-popup {
+		min-width: 240px;
+	}
+
+	.popup-header {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding-bottom: 0.1rem;
+		border-bottom: 1px solid #e5e7eb;
+	}
+
+	.popup-status {
+		padding: 0.25rem 0.5rem;
+		border-radius: 1rem;
+		font-size: 0.75rem;
+		font-weight: 600;
+	}
+
+	.leaflet-popup-content-wrapper {
+		border-radius: 0.75rem;
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+	}
+</style>
+
+@* <script>
+    // code for browser notification
+
+    const publicKey = "BHL6kKJxv1xTOUZmL0Y1hDdPj1O87mTXj6qhdQ6aO9JjKxFHVh4kqN2E6sGykq1LvwSkq3UgRUaBgHd5k4XhYdg"; // from Step 2
+
+    async function registerPush() {
+        if ("serviceWorker" in navigator && "PushManager" in window) {
+            const sw = await navigator.serviceWorker.register("/js/serviceWorker/serviceWorker.js");
+            const subscription = await sw.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(publicKey)
+            });
+
+            // Send subscription to server
+            await fetch("/Home/SaveSubscription", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(subscription)
+            });
+
+            alert("Push registered!");
+        }
+    }
+
+    function urlBase64ToUint8Array(base64String) {
+        const padding = "=".repeat((4 - base64String.length % 4) % 4);
+        const base64 = (base64String + padding)
+            .replace(/\-/g, "+")
+            .replace(/_/g, "/");
+        const rawData = window.atob(base64);
+        const outputArray = new Uint8Array(rawData.length);
+        for (let i = 0; i < rawData.length; ++i) {
+            outputArray[i] = rawData.charCodeAt(i);
+        }
+        return outputArray;
+    }
+</script>
+
+<button onclick="registerPush()">Enable Notifications</button>
+
+<form method="post" action="/Home/SendNotification">
+    <input type="text" name="title" placeholder="Title" required />
+    <input type="text" name="message" placeholder="Message" required />
+    <button type="submit">Send Notification</button>
+</form> *@
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@* Import feedback partial here *@
+@await Html.PartialAsync("_Feedback")
+
+<script>
+	const dougnutChartData = @Html.Raw(JsonConvert.SerializeObject(new
+	{
+		TotalLightCount = Model.TotalLightCount,
+		ActiveLightCount = Model.ActiveLightCount,
+		FaultyLightCount = Model.FaultyLightCount,
+		NoPowerLightCount = Model.NoPowerLightCount
+	}));
+
+	const Lights = @Html.Raw(JsonConvert.SerializeObject(Model.Lights));
+</script>
+
+<div class="mx-2 sm:mx-6">
+	<!-- Stats Grid -->
+	<div class="grid-cols-1 mb-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+		<!-- Total Lights Card -->
+		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
+			<div class="mb-4 flex items-center justify-between">
+				<h2 class="text-lg font-semibold">Total Lights</h2>
+				<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600">
+					<i class="fas fa-lightbulb text-xl"></i>
+				</div>
+			</div>
+			<div class="text-3xl font-bold">@Model.TotalLightCount</div>
+			<div class="text-sm text-gray-500">All Installed Lights</div>
+			<div class="mt-2">
+				<div class="progress-bar">
+					<div class="progress-fill bg-blue-600"
+						 style="width:@((Model.TotalLightCount > 0 ? (Model.TotalLightCount * 100.0 / Model.TotalLightCount) : 0))%">
+					</div>
+				</div>
+
+				<div class="mt-1 flex justify-between text-xs text-gray-500">
+					<span>0%</span>
+					<span class="text-blue-600">@((Model.TotalLightCount > 0 ? (Model.TotalLightCount * 100.0 / Model.TotalLightCount) : 0).ToString("0.00"))%</span>
+					<span>100%</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Active Card -->
+		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
+			<div class="mb-4 flex items-center justify-between">
+				<h2 class="text-lg font-semibold">Active</h2>
+				<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600">
+					<i class="fas fa-plug text-xl"></i>
+				</div>
+			</div>
+			<div class="text-3xl font-bold">@Model.ActiveLightCount</div>
+			<div class="text-sm text-gray-500">Currently Operational</div>
+			<div class="mt-2">
+				<div class="progress-bar">
+					<div class="progress-fill bg-green-500"
+						 style="width:@((Model.TotalLightCount > 0 ? (Model.ActiveLightCount * 100.0 / Model.TotalLightCount) : 0))%">
+					</div>
+				</div>
+
+				<div class="mt-1 flex justify-between text-xs text-gray-500">
+					<span>0%</span>
+					<span class="text-green-500">@((Model.TotalLightCount > 0 ? (Model.ActiveLightCount * 100.0 / Model.TotalLightCount) : 0).ToString("0.00"))%</span>
+					<span>100%</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Faulty Card -->
+		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
+			<div class="mb-4 flex items-center justify-between">
+				<h2 class="text-lg font-semibold">Faulty</h2>
+				<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-red-100 text-red-600">
+					<i class="fas fa-plug text-xl"></i>
+				</div>
+			</div>
+			<div class="text-3xl font-bold">@Model.FaultyLightCount</div>
+			<div class="text-sm text-gray-500">Requiring Repair</div>
+			<div class="mt-2">
+				<div class="progress-bar">
+					<div class="progress-fill bg-red-600" style="width: @((Model.TotalLightCount > 0 ? (Model.FaultyLightCount * 100.0 / Model.TotalLightCount) : 0))%"></div>
+				</div>
+				<div class="mt-1 flex justify-between text-xs text-gray-500">
+					<span>0%</span>
+					<span class="text-red-600">@((Model.TotalLightCount > 0 ? (Model.FaultyLightCount * 100.0 / Model.TotalLightCount) : 0).ToString("0.00"))%</span>
+					<span>100%</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- No Power Card -->
+		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
+			<div class="mb-4 flex items-center justify-between">
+				<h2 class="text-lg font-semibold">No Power</h2>
+				<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+					<i class="fas fa-bolt text-xl"></i>
+				</div>
+			</div>
+			<div class="text-3xl font-bold">@Model.NoPowerLightCount</div>
+			<div class="text-sm text-gray-500">Need Power</div>
+			<div class="mt-2">
+				<div class="progress-bar">
+					<div class="progress-fill progress-maintenance" style="width: @((Model.TotalLightCount > 0 ? (Model.NoPowerLightCount * 100.0 / Model.TotalLightCount) : 0))%"></div>
+				</div>
+				<div class="mt-1 flex justify-between text-xs text-gray-500">
+					<span>0%</span>
+					<span class="text-amber-600">@((Model.TotalLightCount > 0 ? (Model.NoPowerLightCount * 100.0 / Model.TotalLightCount) : 0).ToString("0.00"))%</span>
+					<span>100%</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Two Column Section -->
+	<div class="grid-cols-1 mb-2 grid gap-2 lg:grid-cols-2">
+		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
+			<h2 class="mb-4 text-lg font-semibold">Ward-Wise Status</h2>
+			<div class="-mx-2 overflow-x-auto sm:mx-auto">
+				<table class="w-full">
+					<thead>
+						<tr class="text-left">
+							<th class="p-3 text-center text-sm font-medium text-gray-500">Ward</th>
+							<th class="p-3 text-center text-sm font-medium text-gray-500">Total Lights</th>
+							<th class="p-3 text-center text-sm font-medium text-gray-500">Active</th>
+							<th class="p-3 text-center text-sm font-medium text-gray-500">Faulty</th>
+							<th class="p-3 text-center text-sm font-medium text-gray-500">No Power</th>
+							<th class="p-3 text-center text-sm font-medium text-gray-500">%</th>
+						</tr>
+					</thead>
+					<tbody class="">
+						@if (Model.WardWiseLight != null && Model.WardWiseLight.Any())
+						{
+							@foreach (var item in Model.WardWiseLight)
+							{
+								var percentage = item.TotalLightCount > 0
+								? (item.ActiveLightCount * 100.0 / item.TotalLightCount)
+								: 0;
+
+								var percentClass = percentage >= 95 ? "bg-green-100 text-green-800" :
+								percentage >= 80 ? "bg-yellow-100 text-yellow-800" :
+								"bg-red-100 text-red-800";
+
+								<tr class="border-b border-gray-200">
+									<td class="p-3 text-center font-medium"><span class="hidden sm:inline">Ward</span> @item.Ward</td>
+									<td class="p-3 text-center">@item.TotalLightCount</td>
+									<td class="p-3 text-center">@item.ActiveLightCount</td>
+									<td class="p-3 text-center">@item.FaultyLightCount</td>
+									<td class="p-3 text-center">@item.NoPowerLightCount</td>
+									<td class="p-3 text-center">
+										<span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium @percentClass">
+											@percentage.ToString("0.0")%
+										</span>
+									</td>
+								</tr>
+							}
+						}
+						else
+						{
+							<tr>
+								<td colspan="6" class="p-3 text-center text-gray-500">
+									Data not Found
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Lights by Status Chart -->
+		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
+			<h2 class="mb-4 text-lg font-semibold">Lights by Status</h2>
+			<div class="h-[250px]">
+				<canvas id="statusChart"></canvas>
+			</div>
+		</div>
+	</div>
+
+	<!-- Map Container -->
+	<div class="relative mt-2 rounded-2xl border border-[#abb3c2] bg-white p-2 dark:border-[rgba(255,255,255,0.125)]">
+		<!-- Map Legend -->
+		<div class="bg-white/95 glass-card z-[1000] absolute right-2.5 top-2.5 flex gap-2 rounded-xl p-3 opacity-90 shadow-md backdrop-blur-md sm:flex-col">
+			<div class="legend-item">
+				<div class="legend-color bg-success-600"></div>
+				<span class="text-sm">Active</span>
+			</div>
+			<div class="legend-item">
+				<div class="legend-color bg-warning-600"></div>
+				<span class="text-sm">Faulty</span>
+			</div>
+			<div class="legend-item">
+				<div class="legend-color bg-danger-600"></div>
+				<span class="text-sm">No Power</span>
+			</div>
+		</div>
+
+		<!-- Map Controls -->
+		<div class="bg-white/95 glass-card z-[1000] absolute bottom-4 right-2.5 w-full max-w-[300px] rounded-xl p-3 opacity-90 backdrop-blur-md">
+			<div class="relative mb-2">
+				<input type="text" placeholder="Search lights..." id="searchLights" autocomplete="off"
+					   class="w-full rounded-lg border border-[#abb3c2] px-4 py-2 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-200">
+				<i class="fas fa-search absolute left-3 top-2.5 text-gray-500 dark:text-gray-400"></i>
+			</div>
+
+			<div class="status-filter">
+				<div class="filter-btn bg-success-600 text-white" data-status="active">
+					<i class="fas fa-check-circle"></i>
+					<span>Active</span>
+				</div>
+				<div class="filter-btn bg-warning-600 text-white" data-status="faulty">
+					<i class="fas fa-tools"></i>
+					<span>Faulty</span>
+				</div>
+				<div class="filter-btn bg-danger-600 text-white" data-status="noPower">
+					<i class="fas fa-exclamation-circle"></i>
+					<span>No Power</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Map -->
+		<div id="lightsMap" class="h-[500px] w-full rounded-lg border border-[#abb3c2]"></div>
+	</div>
+
+	<!-- Charts Section -->
+	<div class="grid-cols-1 grid hidden gap-2 lg:grid-cols-2">
+		<!-- Faults Reported Chart -->
+		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
+			<div class="mb-4 flex items-center justify-between">
+				<h2 class="text-lg font-semibold">Faults Reported</h2>
+				<div class="flex space-x-2">
+					<button class="rounded-md bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200">Day</button>
+					<button class="rounded-md bg-red-500 px-3 py-1 text-xs font-medium text-white hover:bg-red-600">Week</button>
+					<button class="rounded-md bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200">Month</button>
+				</div>
+			</div>
+			<div class="chart-container h-[250px]">
+				<canvas id="faultsChart"></canvas>
+			</div>
+		</div>
+
+		<!-- Performance Chart -->
+		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
+			<h2 class="mb-4 text-lg font-semibold">Performance Overview</h2>
+			<div class="h-[250px]">
+				<canvas id="performanceChart"></canvas>
+			</div>
+		</div>
+	</div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<script src="~/js/pages/MainDashboard.js?v=@DateTime.Now.Ticks"></script>

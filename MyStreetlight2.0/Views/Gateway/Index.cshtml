@@ -1,0 +1,138 @@
+﻿@using Streetlight2._0.ViewModels
+@model GatewayListViewModel
+
+@* Import feedback partial here *@
+@await Html.PartialAsync("_Feedback")
+
+<div class="mx-2 sm:mx-6">
+	<div class="h-[calc(100vh-5.5rem)]">
+		<!-- Gateway Dashboard Card -->
+		<div class="glass-card mx-auto max-w-7xl rounded-2xl border border-[#abb3c2] p-1 shadow-xl dark:border-[rgba(255,255,255,0.125)] md:p-6">
+			<!-- Header Section -->
+			<div class="flex flex-col justify-between gap-3 p-3 pb-0 md:p-0 md:flex-row md:items-center">
+				<div>
+					<div class="flex items-center">
+						<div class="bg-blue-500/20 mr-3 flex h-12 w-12 items-center justify-center rounded-xl">
+							<i class="fas fa-network-wired text-xl text-blue-400"></i>
+						</div>
+						<div>
+							<h2 class="text-2xl font-bold">Installed Sites: @Model.TotalCount</h2>
+							@* <p class="text-sm">Address: @Model.Address</p> *@
+						</div>
+					</div>
+				</div>
+
+				<!-- Right side - Controls and buttons -->
+				<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-2">
+					<div class="glass-card flex flex-wrap items-center justify-evenly gap-1 rounded-xl p-0.5 shadow-inner sm:justify-center sm:gap-1.5 sm:p-1.5">
+						@* <a href="javascript:void(0);"
+						   onclick="sendCommandForAllLights(1)"
+						   class="flex items-center justify-center rounded-lg bg-gradient-to-br from-green-500 to-green-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-green-600 hover:to-green-700 hover:shadow-lg">
+							<i class="fas fa-play-circle mr-1.5 text-xs"></i> ON
+						</a>
+						<a href="javascript:void(0);"
+						   onclick="sendCommandForAllLights(0)"
+						   class="flex items-center justify-center rounded-lg bg-gradient-to-br from-red-500 to-red-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-red-600 hover:to-red-700 hover:shadow-lg">
+							<i class="fas fa-stop-circle mr-1.5 text-xs"></i> OFF
+						</a>
+						<a href="javascript:void(0);"
+						   onclick="sendCommandForAllLights(2)"
+						   class="pulse flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-blue-600 hover:to-blue-700 hover:shadow-lg">
+							<i class="fas fa-bolt mr-1.5 text-xs"></i> Test
+						</a> *@
+						<form method="POST" action="/Streetlight/SaveActionCommandForAll?actionId=1"
+							  onclick="this.submit();"
+							  class="flex cursor-pointer items-center justify-center rounded-lg bg-gradient-to-br from-green-500 to-green-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-green-600 hover:to-green-700 hover:shadow-lg">
+							<i class="fas fa-play-circle mr-1.5 text-xs"></i> ON
+						</form>
+						<form method="POST" action="/Streetlight/SaveActionCommandForAll?actionId=0"
+							  onclick="this.submit();"
+							  class="flex items-center justify-center rounded-lg bg-gradient-to-br from-red-500 to-red-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-red-600 hover:to-red-700 hover:shadow-lg">
+							<i class="fas fa-stop-circle mr-1.5 text-xs"></i> OFF
+						</form>
+						<form method="POST" action="/Streetlight/SaveActionCommandForAll?actionId=2"
+							  onclick="this.submit();"
+							  class="pulse flex items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-blue-600 hover:to-blue-700 hover:shadow-lg">
+							<i class="fas fa-bolt mr-1.5 text-xs"></i> Test
+						</form>
+
+						<div class="hidden h-6 border-l border-gray-300 dark:border-gray-600 sm:block"></div>
+
+						<button class="from-primary-500 to-primary-600 flex items-center justify-center rounded-lg bg-gradient-to-br px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-primary-600 hover:to-primary-700 hover:shadow-lg">
+							<i class="fas fa-download mr-1.5"></i> Reports
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Count and Filter -->
+			<div class="flex justify-between gap-3 p-3 pb-0 md:flex-row md:items-center md:justify-between md:mt-3 md:p-0">
+				<div class="flex items-center space-x-3">
+					<div class="bg-gray-200/50 rounded-lg px-3 py-1.5 text-gray-700 dark:bg-gray-700/50 dark:text-gray-200">
+						<span class="hidden text-sm font-medium md:inline">Installed Sites: </span>
+						<span class="font-bold text-blue-600 dark:text-blue-400">@Model.TotalCount</span>
+					</div>
+				</div>
+
+				<div class="flex items-center space-x-1 md:mt-0">
+					<div class="relative">
+						<input type="text" placeholder="Search lights..."
+							   class="bg-gray-200/50 w-full rounded-lg px-4 py-2 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-200">
+						<i class="fas fa-search absolute left-3 top-2.5 text-gray-500 dark:text-gray-400"></i>
+					</div>
+					<button class="rounded-lg bg-gray-200 px-3 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:bg-gray-700/50 dark:text-gray-200 dark:hover:bg-gray-700">
+						<i class="fas fa-filter"></i>
+					</button>
+				</div>
+			</div>
+
+			<!-- Table -->
+			<div class="mt-3 max-h-[450px] overflow-y-auto rounded-xl border border-gray-200 dark:border-gray-700">
+				<div class="rounded-lg border border-gray-200 shadow-sm dark:border-gray-700">
+					<table class="w-full text-base leading-tight">
+						<thead class="sticky top-0 bg-gray-100 text-sm font-semibold text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+							<tr>
+								<th class="p-1 px-4 text-left">Gateway ID</th>
+								<th class="flex-col p-1 px-2">
+									<span>Light Status</span>
+									<div class="mt-3 flex justify-around text-center">
+										<span>ON</span>
+										<span>OFF</span>
+										<span>NG</span>
+										<span>NC</span>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-gray-200 text-sm dark:divide-gray-700">
+							@foreach (var gateway in Model.Gateways)
+							{
+								<tr class="font-medium text-gray-800 transition hover:bg-gray-50 dark:text-gray-200 dark:hover:bg-gray-900">
+									<!-- Always visible -->
+									<td class="p-2 font-bold">
+										<a asp-action="Gateway" asp-controller="Gateway" asp-route-gatewayId="@gateway.Id">
+											<span class="text-left text-blue-600 hover:underline sm:px-2"> @gateway.Id</span>
+										</a>
+									</td>
+
+									<td class="p-2">
+										<div class="flex justify-around text-center font-bold">
+											<span class="text-emerald-600">@gateway.OnLightCount</span>
+											<span class="text-red-600">@gateway.OffLightCount</span>
+											<span class="text-indigo-600">@gateway.NGLightCount</span>
+											<span class="text-amber-500">@gateway.NCLightCount</span>
+										</div>
+									</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="~/js/misc/actioncommand.js?v=@DateTime.Now.Ticks"></script>
