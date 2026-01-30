@@ -1,4 +1,4 @@
-﻿namespace Streetlight2._0.DTOs.MaintenanceDtos
+﻿namespace MyStreetlight2._0.DTOs.MaintenanceDtos
 {
     public class FaultyLightMaintenanceLogDto
     {

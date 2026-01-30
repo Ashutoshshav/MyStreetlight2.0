@@ -1,4 +1,4 @@
-﻿namespace Streetlight2._0.DTOs.GatewayDtos
+﻿namespace MyStreetlight2._0.DTOs.GatewayDtos
 {
     public class GatewayDto
     {

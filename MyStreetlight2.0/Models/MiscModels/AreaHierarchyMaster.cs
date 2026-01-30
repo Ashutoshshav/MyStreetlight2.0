@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Streetlight2._0.Models.Misc;
+namespace MyStreetlight2._0.Models.Misc;
 
 public partial class AreaHierarchyMaster
 {

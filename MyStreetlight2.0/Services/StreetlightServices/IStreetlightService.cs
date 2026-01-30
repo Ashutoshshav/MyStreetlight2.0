@@ -1,8 +1,8 @@
-﻿using Streetlight2._0.DTOs.LightDtos;
-using Streetlight2._0.Models;
-using Streetlight2._0.Models.LightModels;
+﻿using MyStreetlight2._0.DTOs.LightDtos;
+using MyStreetlight2._0.Models;
+using MyStreetlight2._0.Models.LightModels;
 
-namespace Streetlight2._0.Services.StreetlightService
+namespace MyStreetlight2._0.Services.StreetlightService
 {
     public interface IStreetlightService
     {

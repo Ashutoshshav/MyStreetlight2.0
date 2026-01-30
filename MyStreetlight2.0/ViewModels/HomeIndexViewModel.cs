@@ -1,7 +1,7 @@
-﻿using Streetlight2._0.DTOs.LightDtos;
-using Streetlight2._0.DTOs.MicsDtos;
+﻿using MyStreetlight2._0.DTOs.LightDtos;
+using MyStreetlight2._0.DTOs.MicsDtos;
 
-namespace Streetlight2._0.ViewModels
+namespace MyStreetlight2._0.ViewModels
 {
     public class HomeIndexViewModel
     {

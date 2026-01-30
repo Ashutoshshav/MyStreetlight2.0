@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Streetlight2._0.Data;
-using Streetlight2._0.DTOs.UserDtos;
+using MyStreetlight2._0.Data;
+using MyStreetlight2._0.DTOs.UserDtos;
 
-namespace Streetlight2._0.Services.UserService
+namespace MyStreetlight2._0.Services.UserService
 {
     public class UserService : IUserService
     {

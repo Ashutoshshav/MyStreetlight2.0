@@ -1,6 +1,6 @@
-﻿using Streetlight2._0.DTOs.GatewayDtos;
+﻿using MyStreetlight2._0.DTOs.GatewayDtos;
 
-namespace Streetlight2._0.ViewModels
+namespace MyStreetlight2._0.ViewModels
 {
     public class GatewayListViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace Streetlight2._0.DTOs.UserDtos
+﻿namespace MyStreetlight2._0.DTOs.UserDtos
 {
     public class UserDto
     {

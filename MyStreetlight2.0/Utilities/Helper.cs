@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Security.Claims;
 
-namespace Streetlight2._0.Utilities
+namespace MyStreetlight2._0.Utilities
 {
     public static class Helper
     {

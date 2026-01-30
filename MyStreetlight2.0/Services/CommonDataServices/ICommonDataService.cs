@@ -1,4 +1,4 @@
-﻿namespace Streetlight2._0.Services.CommonDataService
+﻿namespace MyStreetlight2._0.Services.CommonDataService
 {
     public interface ICommonDataService
     {

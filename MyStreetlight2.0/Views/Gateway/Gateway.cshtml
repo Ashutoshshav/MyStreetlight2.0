@@ -1,4 +1,4 @@
-﻿@using Streetlight2._0.ViewModels
+﻿@using MyStreetlight2._0.ViewModels
 @model GatewayDashboardViewModel
 
 @* Import feedback partial here *@
@@ -7,14 +7,14 @@
 <div class="mx-2 sm:mx-6">
 	<div class="h-[calc(100vh-5.5rem)]">
 		<!-- Gateway Dashboard Card -->
-		<div class="glass-card mx-auto flex max-w-7xl flex-col flex-wrap rounded-2xl border border-[#abb3c2] p-1 shadow-xl dark:border-[rgba(255,255,255,0.125)] md:p-6">
+		<div class="glass-card mx-auto flex max-w-7xl flex-col flex-wrap rounded-2xl border border-[#abb3c2] p-1 shadow-xl md:p-6 dark:border-[rgba(255,255,255,0.125)]">
 
 			<!-- Header Section -->
 			<div class="grid gap-2 p-3 pb-0 md:grid-cols-[1fr_auto_auto] md:items-center md:gap-4 md:p-0">
 
 				<!-- Left: Gateway Info -->
 				<div class="flex items-center gap-3">
-					<div class="bg-blue-500/20 flex h-12 w-12 items-center justify-center rounded-xl">
+					<div class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/20">
 						<i class="fas fa-network-wired text-xl text-blue-400"></i>
 					</div>
 					<div>
@@ -24,7 +24,7 @@
 				</div>
 
 				<!-- Center: Status + Time -->
-				<div class="flex flex-col items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-sm dark:bg-gray-800 md:flex-row md:gap-4">
+				<div class="flex flex-col items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-sm md:flex-row md:gap-4 dark:bg-gray-800">
 					<!-- Last Update -->
 					<div class="flex items-center gap-1.5 font-medium text-gray-600 dark:text-gray-300">
 						<i class="fas fa-clock text-xs"></i>
@@ -39,8 +39,8 @@
 					</div>
 
 					<!-- Divider (hidden on mobile, vertical on desktop) -->
-					<div class="hidden h-6 border-l border-gray-300 dark:border-gray-600 md:block"></div>
-					<div class="h-px w-full bg-gray-300 dark:bg-gray-600 md:hidden"></div>
+					<div class="hidden h-6 border-l border-gray-300 md:block dark:border-gray-600"></div>
+					<div class="h-px w-full bg-gray-300 md:hidden dark:bg-gray-600"></div>
 
 					<!-- Radio -->
 					<div class="flex items-center gap-1.5">
@@ -85,7 +85,7 @@
 							<i class="fas fa-bolt mr-1.5 text-xs"></i> Test
 						</form>
 
-						<div class="hidden h-6 border-l border-gray-300 dark:border-gray-600 sm:block"></div>
+						<div class="hidden h-6 border-l border-gray-300 sm:block dark:border-gray-600"></div>
 
 						<button class="from-primary-500 to-primary-600 flex items-center justify-center rounded-lg bg-gradient-to-br px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-primary-600 hover:to-primary-700 hover:shadow-lg">
 							<i class="fas fa-download mr-1.5"></i> Reports
@@ -94,9 +94,9 @@
 				</div>
 
 				<!-- Count and Filter -->
-				<div class="flex justify-between gap-3 pb-0 md:flex-row md:items-center md:col-span-3">
+				<div class="flex justify-between gap-3 pb-0 md:col-span-3 md:flex-row md:items-center">
 					<div class="flex items-center space-x-3">
-						<div class="bg-gray-200/50 rounded-lg px-3 py-1.5 text-gray-700 dark:bg-gray-700/50 dark:text-gray-200">
+						<div class="rounded-lg bg-gray-200/50 px-3 py-1.5 text-gray-700 dark:bg-gray-700/50 dark:text-gray-200">
 							<span class="hidden text-sm font-medium md:inline">Connected Lights: </span>
 							<span class="font-bold text-blue-600 dark:text-blue-400">@Model.Macs.Count</span>
 						</div>
@@ -105,8 +105,8 @@
 					<div class="flex items-center space-x-1 md:mt-0">
 						<div class="relative">
 							<input type="text" placeholder="Search lights..."
-								   class="bg-gray-200/50 w-full rounded-lg px-4 py-2 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-200">
-							<i class="fas fa-search absolute left-3 top-2.5 text-gray-500 dark:text-gray-400"></i>
+								   class="w-full rounded-lg bg-gray-200/50 px-4 py-2 pl-10 text-sm text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-700/50 dark:text-gray-200">
+							<i class="fas fa-search absolute top-2.5 left-3 text-gray-500 dark:text-gray-400"></i>
 						</div>
 						<button class="rounded-lg bg-gray-200 px-3 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:bg-gray-700/50 dark:text-gray-200 dark:hover:bg-gray-700">
 							<i class="fas fa-filter"></i>
@@ -145,7 +145,7 @@
 									<td class="p-2 text-center">
 										@if (node.LastUpdate == DateTime.MaxValue)
 										{
-											<span class="italic text-gray-400">Not Available</span>
+											<span class="text-gray-400 italic">Not Available</span>
 										}
 										else
 										{
@@ -204,10 +204,10 @@
 					</button> *@
 
 @* <!-- Header Section -->
-			<div class="flex flex-col justify-between gap-3 p-3 pb-0 md:p-0 md:flex-row md:items-center">
+			<div class="flex flex-col justify-between gap-3 p-3 pb-0 md:flex-row md:items-center md:p-0">
 				<div>
 					<div class="flex items-center">
-						<div class="bg-blue-500/20 mr-3 flex h-12 w-12 items-center justify-center rounded-xl">
+						<div class="mr-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/20">
 							<i class="fas fa-network-wired text-xl text-blue-400"></i>
 						</div>
 						<div>
@@ -236,7 +236,7 @@
 							<i class="fas fa-bolt mr-1.5 text-xs"></i> Test
 						</a>
 
-						<div class="hidden h-6 border-l border-gray-300 dark:border-gray-600 sm:block"></div>
+						<div class="hidden h-6 border-l border-gray-300 sm:block dark:border-gray-600"></div>
 
 						<button class="from-primary-500 to-primary-600 flex items-center justify-center rounded-lg bg-gradient-to-br px-3 py-2.5 text-sm font-medium text-white shadow-md transition-all hover:from-primary-600 hover:to-primary-700 hover:shadow-lg">
 							<i class="fas fa-download mr-1.5"></i> Reports
@@ -246,10 +246,10 @@
 			</div> *@
 
 <!-- Stats Overview -->
-@* <div class="grid-cols-2 mt-6 grid gap-4 md:grid-cols-4">
-				<div class="bg-gray-700/30 rounded-xl p-4">
+@* <div class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+				<div class="rounded-xl bg-gray-700/30 p-4">
 					<div class="flex items-center">
-						<div class="bg-green-500/20 mr-3 rounded-lg p-2">
+						<div class="mr-3 rounded-lg bg-green-500/20 p-2">
 							<i class="fas fa-plug text-green-400"></i>
 						</div>
 						<div>
@@ -259,9 +259,9 @@
 					</div>
 				</div>
 
-				<div class="bg-gray-700/30 rounded-xl p-4">
+				<div class="rounded-xl bg-gray-700/30 p-4">
 					<div class="flex items-center">
-						<div class="bg-red-500/20 mr-3 rounded-lg p-2">
+						<div class="mr-3 rounded-lg bg-red-500/20 p-2">
 							<i class="fas fa-plug text-red-400"></i>
 						</div>
 						<div>
@@ -271,9 +271,9 @@
 					</div>
 				</div>
 
-				<div class="bg-gray-700/30 rounded-xl p-4">
+				<div class="rounded-xl bg-gray-700/30 p-4">
 					<div class="flex items-center">
-						<div class="bg-blue-500/20 mr-3 rounded-lg p-2">
+						<div class="mr-3 rounded-lg bg-blue-500/20 p-2">
 							<i class="fas fa-bolt text-blue-400"></i>
 						</div>
 						<div>
@@ -283,9 +283,9 @@
 					</div>
 				</div>
 
-				<div class="bg-gray-700/30 rounded-xl p-4">
+				<div class="rounded-xl bg-gray-700/30 p-4">
 					<div class="flex items-center">
-						<div class="bg-amber-500/20 mr-3 rounded-lg p-2">
+						<div class="mr-3 rounded-lg bg-amber-500/20 p-2">
 							<i class="fas fa-exclamation-triangle text-amber-400"></i>
 						</div>
 						<div>

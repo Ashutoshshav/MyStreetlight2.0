@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Streetlight2._0.Data;
-using Streetlight2._0.DTOs;
-using Streetlight2._0.Filters.PasswordCheckFilter;
-using Streetlight2._0.Services.CommonDataService;
-using Streetlight2._0.Services.GatewayService;
-using Streetlight2._0.Services.StreetlightService;
-using Streetlight2._0.ViewModels;
-using Streetlight2._0.Utilities;
+using MyStreetlight2._0.Data;
+using MyStreetlight2._0.DTOs;
+using MyStreetlight2._0.Filters.PasswordCheckFilter;
+using MyStreetlight2._0.Services.CommonDataService;
+using MyStreetlight2._0.Services.GatewayService;
+using MyStreetlight2._0.Services.StreetlightService;
+using MyStreetlight2._0.ViewModels;
+using MyStreetlight2._0.Utilities;
 
-namespace Streetlight2._0.Controllers
+namespace MyStreetlight2._0.Controllers
 {
     public class GatewayController : Controller
     {

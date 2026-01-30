@@ -2,16 +2,16 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Streetlight2._0.Data;
-using Streetlight2._0.DTOs;
-using Streetlight2._0.Filters.PasswordCheckFilter;
-using Streetlight2._0.Services.CommonDataService;
-using Streetlight2._0.Services.GatewayService;
-using Streetlight2._0.Services.LogServices;
-using Streetlight2._0.Services.MaintenanceServices;
-using Streetlight2._0.Services.StreetlightService;
-using Streetlight2._0.Services.UserService;
-using Streetlight2._0.Utilities;
+using MyStreetlight2._0.Data;
+using MyStreetlight2._0.DTOs;
+using MyStreetlight2._0.Filters.PasswordCheckFilter;
+using MyStreetlight2._0.Services.CommonDataService;
+using MyStreetlight2._0.Services.GatewayService;
+using MyStreetlight2._0.Services.LogServices;
+using MyStreetlight2._0.Services.MaintenanceServices;
+using MyStreetlight2._0.Services.StreetlightService;
+using MyStreetlight2._0.Services.UserService;
+using MyStreetlight2._0.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 

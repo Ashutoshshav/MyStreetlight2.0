@@ -1,4 +1,4 @@
-﻿namespace Streetlight2._0.Models.MaintenanceModels
+﻿namespace MyStreetlight2._0.Models.MaintenanceModels
 {
     public partial class FaultyLightLog
     {

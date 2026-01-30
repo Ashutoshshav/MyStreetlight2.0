@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Streetlight2._0.Data;
+using MyStreetlight2._0.Data;
 
-namespace Streetlight2._0.Services.CommonDataService
+namespace MyStreetlight2._0.Services.CommonDataService
 {
     public class CommonDataService : ICommonDataService
     {

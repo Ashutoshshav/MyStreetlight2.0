@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Streetlight2._0.Data;
-using Streetlight2._0.Models.LightModels;
-using Streetlight2._0.Models.MaintenanceModels;
+using MyStreetlight2._0.Data;
+using MyStreetlight2._0.Models.LightModels;
+using MyStreetlight2._0.Models.MaintenanceModels;
 
-namespace Streetlight2._0.Services.LogServices
+namespace MyStreetlight2._0.Services.LogServices
 {
     public class LogService : ILogService
     {

@@ -1,4 +1,4 @@
-﻿namespace Streetlight2._0.DTOs.MicsDtos
+﻿namespace MyStreetlight2._0.DTOs.MicsDtos
 {
     public class LightUpdateFlag
     {

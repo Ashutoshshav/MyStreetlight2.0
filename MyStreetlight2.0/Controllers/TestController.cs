@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Streetlight2._0.Data;
+using MyStreetlight2._0.Data;
 
-namespace Streetlight2._0.Controllers
+namespace MyStreetlight2._0.Controllers
 {
     public class TestController : Controller
     {

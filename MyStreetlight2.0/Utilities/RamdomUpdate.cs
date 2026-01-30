@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Streetlight2._0.Data;
-using Streetlight2._0.DTOs.MicsDtos;
+using MyStreetlight2._0.Data;
+using MyStreetlight2._0.DTOs.MicsDtos;
 using static System.Formats.Asn1.AsnWriter;
 
-namespace Streetlight2._0.Utilities
+namespace MyStreetlight2._0.Utilities
 {
     public class RamdomUpdate : BackgroundService
     {

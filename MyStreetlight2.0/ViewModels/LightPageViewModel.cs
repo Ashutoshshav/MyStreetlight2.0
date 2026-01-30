@@ -1,4 +1,4 @@
-﻿namespace Streetlight2._0.ViewModels
+﻿namespace MyStreetlight2._0.ViewModels
 {
     public class LightPageViewModel
     {

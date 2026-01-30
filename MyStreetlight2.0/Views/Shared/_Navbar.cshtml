@@ -1,4 +1,4 @@
-﻿@using Streetlight2._0.Utilities
+﻿@using MyStreetlight2._0.Utilities
 
 @{
 	bool canDashboard = User.HasClaim("permissions", "Dashboard");
@@ -10,7 +10,7 @@
 <div class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100">
 
 	<!-- Navbar -->
-	<nav class="z-40 bg-white/10 fixed left-0 top-0 flex w-full items-center justify-between border-b border-[#abb3c2] px-4 py-1 backdrop-blur-lg dark:bg-gray-900/70 dark:border-white/10 md:px-6">
+	<nav class="fixed top-0 left-0 z-40 flex w-full items-center justify-between border-b border-[#abb3c2] bg-white/10 px-4 py-1 backdrop-blur-lg md:px-6 dark:border-white/10 dark:bg-gray-900/70">
 
 		<!-- Logo / Brand -->
 		<div class="flex items-center">
@@ -46,24 +46,24 @@
 		<!-- Right Side Buttons -->
 		<div class="flex items-center space-x-3 md:space-x-4">
 			<button id="themeToggle"
-					class="bg-white/20 rounded-full border border-gray-300 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 dark:hover:bg-gray-700">
+					class="rounded-full border border-gray-300 bg-white/20 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 dark:hover:bg-gray-700">
 				<i id="themeIcon" class="fas fa-moon"></i>
 			</button>
-			<button class="bg-white/20 relative rounded-full border border-gray-300 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 dark:hover:bg-gray-700">
+			<button class="relative rounded-full border border-gray-300 bg-white/20 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 dark:hover:bg-gray-700">
 				<i class="fas fa-bell"></i>
-				@* <span class="absolute -right-1 -top-1 flex h-5 w-5 animate-pulse items-center justify-center rounded-full bg-red-500 text-xs text-white">3</span> *@
+				@* <span class="absolute -top-1 -right-1 flex h-5 w-5 animate-pulse items-center justify-center rounded-full bg-red-500 text-xs text-white">3</span> *@
 			</button>
-			<button class="bg-white/20 hidden rounded-full border border-gray-300 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 md:block dark:hover:bg-gray-700">
+			<button class="hidden rounded-full border border-gray-300 bg-white/20 p-2 px-3.5 transition hover:bg-white/30 md:block dark:border-0 dark:bg-gray-700/70 dark:hover:bg-gray-700">
 				<span class="font-semibold">A</span>
 			</button>
-			<button id="mobileMenuButton" class="bg-white/20 rounded-full border border-gray-300 p-2 px-3.5 transition hover:bg-white/30 dark:border-0 dark:bg-gray-700/70 md:hidden dark:hover:bg-gray-700">
+			<button id="mobileMenuButton" class="rounded-full border border-gray-300 bg-white/20 p-2 px-3.5 transition hover:bg-white/30 md:hidden dark:border-0 dark:bg-gray-700/70 dark:hover:bg-gray-700">
 				<i class="fas fa-bars font-semibold"></i>
 			</button>
 		</div>
 	</nav>
 
 	<!-- Mobile Menu -->
-	<div id="mobileMenu" class="-translate-x-full bg-white/95 z-[10000] fixed left-0 top-0 h-full w-64 transform shadow-lg transition-transform duration-300 dark:bg-gray-800/95">
+	<div id="mobileMenu" class="fixed top-0 left-0 z-[10000] h-full w-64 -translate-x-full transform bg-white/95 shadow-lg transition-transform duration-300 dark:bg-gray-800/95">
 		<div class="flex h-full flex-col">
 
 			<!-- Menu Header -->
@@ -117,7 +117,7 @@
 	</div>
 
 	<!-- Overlay -->
-	<div id="overlay" class="z-20 bg-black/50 fixed inset-0 hidden"></div>
+	<div id="overlay" class="fixed inset-0 z-20 hidden bg-black/50"></div>
 </div>
 
 <script src="~/js/Navbar/_Navbar.js"></script>

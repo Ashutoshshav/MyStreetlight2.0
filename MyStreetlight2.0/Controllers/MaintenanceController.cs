@@ -1,16 +1,16 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Streetlight2._0.Data;
-using Streetlight2._0.DTOs.MaintenanceDtos;
-using Streetlight2._0.Models.Enums;
-using Streetlight2._0.Services.CommonDataService;
-using Streetlight2._0.Services.LogServices;
-using Streetlight2._0.Services.MaintenanceServices;
-using Streetlight2._0.Services.StreetlightService;
-using Streetlight2._0.ViewModels;
+using MyStreetlight2._0.Data;
+using MyStreetlight2._0.DTOs.MaintenanceDtos;
+using MyStreetlight2._0.Models.Enums;
+using MyStreetlight2._0.Services.CommonDataService;
+using MyStreetlight2._0.Services.LogServices;
+using MyStreetlight2._0.Services.MaintenanceServices;
+using MyStreetlight2._0.Services.StreetlightService;
+using MyStreetlight2._0.ViewModels;
 
-namespace Streetlight2._0.Controllers
+namespace MyStreetlight2._0.Controllers
 {
     public class MaintenanceController : Controller
     {

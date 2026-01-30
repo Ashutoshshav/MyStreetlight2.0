@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Streetlight2._0.Data;
-using Streetlight2._0.DTOs.LightDtos;
-using Streetlight2._0.Models;
-using Streetlight2._0.Models.GatewayModels;
-using Streetlight2._0.Models.LightModels;
-using Streetlight2._0.Services.CommonDataService;
-using Streetlight2._0.Services.StreetlightService;
+using MyStreetlight2._0.Data;
+using MyStreetlight2._0.DTOs.LightDtos;
+using MyStreetlight2._0.Models;
+using MyStreetlight2._0.Models.GatewayModels;
+using MyStreetlight2._0.Models.LightModels;
+using MyStreetlight2._0.Services.CommonDataService;
+using MyStreetlight2._0.Services.StreetlightService;
 
-namespace Streetlight2._0.Services.StreetlightService
+namespace MyStreetlight2._0.Services.StreetlightService
 {
     public class StreetlightService : IStreetlightService
     {

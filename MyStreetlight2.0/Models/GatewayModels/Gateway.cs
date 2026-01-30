@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Streetlight2._0.Models.GatewayModels
+namespace MyStreetlight2._0.Models.GatewayModels
 {
     public class Gateway
     {

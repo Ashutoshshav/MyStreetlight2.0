@@ -1,4 +1,4 @@
-﻿namespace Streetlight2._0.Services.LogServices
+﻿namespace MyStreetlight2._0.Services.LogServices
 {
     public interface ILogService
     {

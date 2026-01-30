@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Streetlight2._0.Utilities
+namespace MyStreetlight2._0.Utilities
 {
     public class CookieDecoder
     {

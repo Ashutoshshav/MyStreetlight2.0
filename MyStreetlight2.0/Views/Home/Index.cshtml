@@ -3,7 +3,7 @@
 	ViewData["Title"] = "Home Page";
 }
 
-@model Streetlight2._0.ViewModels.HomeIndexViewModel
+@model MyStreetlight2._0.ViewModels.HomeIndexViewModel
 
 <style>
 	.progress-bar {
@@ -166,7 +166,7 @@
 
 <div class="mx-2 sm:mx-6">
 	<!-- Stats Grid -->
-	<div class="grid-cols-1 mb-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+	<div class="mb-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
 		<!-- Total Lights Card -->
 		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
 			<div class="mb-4 flex items-center justify-between">
@@ -263,7 +263,7 @@
 	</div>
 
 	<!-- Two Column Section -->
-	<div class="grid-cols-1 mb-2 grid gap-2 lg:grid-cols-2">
+	<div class="mb-2 grid grid-cols-1 gap-2 lg:grid-cols-2">
 		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
 			<h2 class="mb-4 text-lg font-semibold">Ward-Wise Status</h2>
 			<div class="-mx-2 overflow-x-auto sm:mx-auto">
@@ -330,7 +330,7 @@
 	<!-- Map Container -->
 	<div class="relative mt-2 rounded-2xl border border-[#abb3c2] bg-white p-2 dark:border-[rgba(255,255,255,0.125)]">
 		<!-- Map Legend -->
-		<div class="bg-white/95 glass-card z-[1000] absolute right-2.5 top-2.5 flex gap-2 rounded-xl p-3 opacity-90 shadow-md backdrop-blur-md sm:flex-col">
+		<div class="glass-card absolute top-2.5 right-2.5 z-[1000] flex gap-2 rounded-xl bg-white/95 p-3 opacity-90 shadow-md backdrop-blur-md sm:flex-col">
 			<div class="legend-item">
 				<div class="legend-color bg-success-600"></div>
 				<span class="text-sm">Active</span>
@@ -346,11 +346,11 @@
 		</div>
 
 		<!-- Map Controls -->
-		<div class="bg-white/95 glass-card z-[1000] absolute bottom-4 right-2.5 w-full max-w-[300px] rounded-xl p-3 opacity-90 backdrop-blur-md">
+		<div class="glass-card absolute right-2.5 bottom-4 z-[1000] w-full max-w-[300px] rounded-xl bg-white/95 p-3 opacity-90 backdrop-blur-md">
 			<div class="relative mb-2">
 				<input type="text" placeholder="Search lights..." id="searchLights" autocomplete="off"
-					   class="w-full rounded-lg border border-[#abb3c2] px-4 py-2 pl-10 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700/50 dark:text-gray-200">
-				<i class="fas fa-search absolute left-3 top-2.5 text-gray-500 dark:text-gray-400"></i>
+					   class="w-full rounded-lg border border-[#abb3c2] px-4 py-2 pl-10 text-sm text-gray-800 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700/50 dark:text-gray-200">
+				<i class="fas fa-search absolute top-2.5 left-3 text-gray-500 dark:text-gray-400"></i>
 			</div>
 
 			<div class="status-filter">
@@ -374,7 +374,7 @@
 	</div>
 
 	<!-- Charts Section -->
-	<div class="grid-cols-1 grid hidden gap-2 lg:grid-cols-2">
+	<div class="grid hidden grid-cols-1 gap-2 lg:grid-cols-2">
 		<!-- Faults Reported Chart -->
 		<div class="glass-card card-hover rounded-2xl border border-[#abb3c2] p-6 dark:border-[rgba(255,255,255,0.125)]">
 			<div class="mb-4 flex items-center justify-between">

@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Streetlight2._0.Data;
-using Streetlight2._0.DTOs.MaintenanceDtos;
-using Streetlight2._0.Services.CommonDataService;
-using Streetlight2._0.Services.UserService;
+using MyStreetlight2._0.Data;
+using MyStreetlight2._0.DTOs.MaintenanceDtos;
+using MyStreetlight2._0.Services.CommonDataService;
+using MyStreetlight2._0.Services.UserService;
 
-namespace Streetlight2._0.Services.MaintenanceServices
+namespace MyStreetlight2._0.Services.MaintenanceServices
 {
     public class MaintenanceService : IMaintenanceService
     {

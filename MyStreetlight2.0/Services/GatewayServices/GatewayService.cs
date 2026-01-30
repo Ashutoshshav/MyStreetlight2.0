@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Streetlight2._0.Data;
-using Streetlight2._0.DTOs.GatewayDtos;
-using Streetlight2._0.Services.CommonDataService;
+using MyStreetlight2._0.Data;
+using MyStreetlight2._0.DTOs.GatewayDtos;
+using MyStreetlight2._0.Services.CommonDataService;
 
-namespace Streetlight2._0.Services.GatewayService
+namespace MyStreetlight2._0.Services.GatewayService
 {
     public class GatewayService : IGatewayService
     {

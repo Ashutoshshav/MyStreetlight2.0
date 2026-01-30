@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Streetlight2._0.Models.Misc
+namespace MyStreetlight2._0.Models.Misc
 {
     public partial class MiscValue
     {

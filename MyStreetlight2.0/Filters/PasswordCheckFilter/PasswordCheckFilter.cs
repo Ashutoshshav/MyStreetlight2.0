@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace Streetlight2._0.Filters.PasswordCheckFilter
+namespace MyStreetlight2._0.Filters.PasswordCheckFilter
 {
     public class PasswordCheckFilter : IAsyncActionFilter
     {

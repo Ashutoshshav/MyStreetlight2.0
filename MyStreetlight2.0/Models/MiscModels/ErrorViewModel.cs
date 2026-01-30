@@ -1,4 +1,4 @@
-namespace Streetlight2._0.Models.Misc
+namespace MyStreetlight2._0.Models.Misc
 {
     public class ErrorViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace Streetlight2._0.Models.Enums
+﻿namespace MyStreetlight2._0.Models.Enums
 {
     public enum FaultyLightStatus
     {

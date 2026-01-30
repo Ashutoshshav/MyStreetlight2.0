@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Streetlight2._0.Models.GatewayModels;
-using Streetlight2._0.Models.LightModels;
-using Streetlight2._0.Models.MaintenanceModels;
-using Streetlight2._0.Models.Misc;
-using Streetlight2._0.Models.UserModels;
+using MyStreetlight2._0.Models.GatewayModels;
+using MyStreetlight2._0.Models.LightModels;
+using MyStreetlight2._0.Models.MaintenanceModels;
+using MyStreetlight2._0.Models.Misc;
+using MyStreetlight2._0.Models.UserModels;
 
-namespace Streetlight2._0.Data;
+namespace MyStreetlight2._0.Data;
 
 public partial class AppDbContext : DbContext
 {
